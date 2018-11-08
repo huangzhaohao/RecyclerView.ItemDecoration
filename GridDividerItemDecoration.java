@@ -25,14 +25,6 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
         mPaint.setStyle(Paint.Style.FILL);
     }
     
-    public GridDividerItemDecoration(int width, int height) {
-        mDividerWidth = width;
-        mDividerHeight = height; 
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(Color.TRANSPARENT);
-        mPaint.setStyle(Paint.Style.FILL);
-    }
-    
     public GridDividerItemDecoration(int height, @ColorInt int color) {
         mDividerWidth = height;
         mDividerHeight = height;
