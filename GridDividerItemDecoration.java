@@ -15,15 +15,39 @@ import android.view.View;
 
 public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Paint mPaint;
-    private int mDividerWidth;
+    private int mDividerWidth,mDividerHeight;
 
+    public GridDividerItemDecoration(int height) {
+        mDividerWidth = height;
+        mDividerHeight = height;
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(Color.TRANSPARENT);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+    
+    public GridDividerItemDecoration(int width, int height) {
+        mDividerWidth = width;
+        mDividerHeight = height; 
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(Color.TRANSPARENT);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+    
     public GridDividerItemDecoration(int height, @ColorInt int color) {
         mDividerWidth = height;
+        mDividerHeight = height;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(color);
         mPaint.setStyle(Paint.Style.FILL);
     }
 
+    public GridDividerItemDecoration(int width, int height, @ColorInt int color) {
+        mDividerWidth = width;
+        mDividerHeight = height; 
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setColor(color);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -43,7 +67,7 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
 
         left = itemPosition % spanCount * dl;
         right = eachWidth - left;
-        bottom = mDividerWidth;
+        bottom = mDividerHeight;
         if (isLastRow){
             bottom = 0;
         }
@@ -63,20 +87,22 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
-
+            boolean isLastRow = isLastRow(parent, i, getSpanCount(parent), childCount);
             //画水平分隔线
             int left = child.getLeft();
             int right = child.getRight();
             int top = child.getBottom() + layoutParams.bottomMargin;
-            int bottom = top + mDividerWidth;
+            int bottom = top + mDividerHeight;
+            if (isLastRow)  bottom = top;
             if (mPaint != null) {
                 canvas.drawRect(left, top, right, bottom, mPaint);
             }
             //画垂直分割线
             top = child.getTop();
-            bottom = child.getBottom() + mDividerWidth;
+            bottom = child.getBottom() + mDividerHeight;
             left = child.getRight() + layoutParams.rightMargin;
             right = left + mDividerWidth;
+            if (isLastRow)  bottom = child.getBottom();
             if (mPaint != null) {
                 canvas.drawRect(left, top, right, bottom, mPaint);
             }
